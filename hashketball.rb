@@ -1,4 +1,5 @@
-# Write your code below game_hash
+require 'pry'
+
 def game_hash
   {
     home: {
@@ -126,4 +127,65 @@ def game_hash
   }
 end
 
-# Write code here
+def find_player(name)
+  game_hash.values.each do |team|
+    team[:players].each do |player|
+      if player[:player_name] == name
+        return player
+      end
+    end
+  end
+end
+
+def num_points_scored(name)
+ find_player(name)[:points] 
+end
+
+def shoe_size(name)
+  find_player(name)[:shoe]
+end
+
+def find_team(team_name)
+  game_hash.values.each do |team|
+    if team[:team_name] == team_name
+      return team
+    end
+  end
+end
+
+def team_colors(team_name)
+  find_team(team_name)[:colors]
+end
+
+def team_names
+  game_hash.values.map do |team|
+    team[:team_name]
+  end
+end
+
+def player_numbers(team_name)
+  find_team(team_name)[:players].map do |player|
+    player[:number]
+  end
+end
+
+def player_stats(name)
+  find_player(name)
+end
+
+def big_shoe_rebounds
+  # look through players shoes sizes
+  # remember if current size is bigger than prevous size
+  # if it is, look at players rebounds
+  # continue looking through data, return biggest size rebounds
+  the_brain = {shoe_size: 0, name: nil}
+  game_hash.values.each do |team|
+    team[:players].each do |player|
+     if player[:shoe] > the_brain[:shoe_size]
+      the_brain[:shoe_size] = player[:shoe]
+      the_brain[:player] = player
+     end
+    end
+  end
+  the_brain[:player][:rebounds]
+end
